@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: ZWallet
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/wallet_db
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+
+    hikari:
+      maximum-pool-size: 50
+
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+    enabled: true
+
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: refresh
+  jpa:
+    hibernate:
+      ddl-auto: update
