@@ -22,4 +22,13 @@ spring:
           include: refresh
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
+
+  cache:
+    type: redis
+  data:
+    redis:
+      port: 6379
+      host: wallet-redis
+server:
+  port: 9090

@@ -11,7 +11,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class WalletRequestDTO {
+public class WalletRequestDTO  {
 
     private UUID walletId;
     private OperationType operationType;

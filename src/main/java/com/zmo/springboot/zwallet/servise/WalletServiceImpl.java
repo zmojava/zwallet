@@ -7,6 +7,8 @@ import com.zmo.springboot.zwallet.repository.WalletRepository;
 import com.zmo.springboot.zwallet.utils.InsufficientFundsException;
 import com.zmo.springboot.zwallet.utils.WalletNotFoundException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +26,7 @@ public class WalletServiceImpl implements WalletService {
 
     @Override
     @Transactional
+    @CachePut(value = "WalletServiceImpl::getBalance", key = "#id")
     public void updateBalance(UUID id, OperationType operationType, Long amount) {
         log.info("Попытка обновления баланса для кошелька с ID: {}, операция: {}, сумма: {}", id, operationType, amount);
 
@@ -54,8 +57,10 @@ public class WalletServiceImpl implements WalletService {
 
     @Override
     @Transactional
+    @Cacheable(value = "WalletServiceImpl::getBalance", key = "#id")
     public Long getBalance(UUID id) {
         log.info("Запрос баланса для кошелька с ID: {}", id);
+
         return walletRepository.findById(id)
                 .map(Wallet::getBalance)
                 .orElseThrow(() -> {
@@ -63,5 +68,4 @@ public class WalletServiceImpl implements WalletService {
                     return new WalletNotFoundException("Кошелек не найден");
                 });
     }
-
 }

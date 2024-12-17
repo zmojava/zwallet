@@ -11,7 +11,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Wallet {
+public class Wallet  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
