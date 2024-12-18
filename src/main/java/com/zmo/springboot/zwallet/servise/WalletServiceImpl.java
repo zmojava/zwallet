@@ -7,6 +7,7 @@ import com.zmo.springboot.zwallet.repository.WalletRepository;
 import com.zmo.springboot.zwallet.utils.InsufficientFundsException;
 import com.zmo.springboot.zwallet.utils.WalletNotFoundException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class WalletServiceImpl implements WalletService {
 
     @Override
     @Transactional
-    @CachePut(value = "WalletServiceImpl::getBalance", key = "#id")
+    @CacheEvict(value = "WalletServiceImpl::getBalance", key = "#id")
     public void updateBalance(UUID id, OperationType operationType, Long amount) {
         log.info("Попытка обновления баланса для кошелька с ID: {}, операция: {}, сумма: {}", id, operationType, amount);
 
